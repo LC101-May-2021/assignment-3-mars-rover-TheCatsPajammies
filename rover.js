@@ -10,63 +10,43 @@ class Rover {
   }
   receiveMessage(message) {
     
-      return { 
-        message: message.name,
-        results: [
-      {
-         completed: true
-      },
-      {
-         completed: true,
-         roverStatus: { mode: this.mode, generatorWatts: this.generatorWatts, position: this.position }
+    let roverStatusObj = { completed: true, roverStatus: {mode: this.mode, generatorWatts: this.generatorWatts, position: this.position} }
+    let resultsArr = [];
+    let passedCommand = { completed: true };
+    let failedCommand = { completed: false };
+
+    for (let i = 0; i < message.commands.length; i++) {
+      
+      let roverCommands = message.commands[i].commandType;
+      let roverCommandValue = message.commands[i].value;
+      if (roverCommands === 'MODE_CHANGE') {
+        roverStatusObj.roverStatus.mode = roverCommandValue;
+        this.mode = roverStatusObj.roverStatus.mode;
+        resultsArr.push(passedCommand);
+      } else if (roverCommands === 'MOVE' && this.mode === 'NORMAL') {
+        roverStatusObj.roverStatus.position = roverCommandValue;
+        this.position = roverStatusObj.roverStatus.position;
+        resultsArr.push(passedCommand);
+      } else if (roverCommands === 'MOVE' && this.mode === 'LOW_POWER') {
+        resultsArr.push(failedCommand);
+      } else if (roverCommands === 'STATUS_CHECK') {
+        resultsArr.push(roverStatusObj);
       }
-   ] 
-      }
+    }
+
+    let data = { message: message.name, results: resultsArr }
     
+
+    return data;
   }
-  
+
 }
-
-
-
 
 
 module.exports = Rover;
 
-let rover = new Rover(87382098)
-let commands = [new Command('STATUS_CHECK')];
-let message = new Message('Test message!', commands);
-let response = rover.receiveMessage(message);
-
-//console.log(rover.receiveMessage(message));
-
-//console.log(response.results[0]);
-// console.log(response.results[1]);
-
-
-/*
-MOVE - 	Number representing the position the rover should move to. 	position 	{completed: true}
-
-STATUS_CHECK - 	No values sent with this command. 	No updates 	{completed: true, roverStatus: {mode: 'NORMAL', generatorWatts: 110, position: 87382098}} Values for mode, generatorWatts, position will depend on current state of rover.
-
-MODE_CHANGE - 	String representing rover mode (see modes) 	mode 	{completed: true}
-
-
-{
-   message: 'Test message with two commands',
-   results: [
-      {
-         completed: true
-      },
-      {
-         completed: true,
-         roverStatus: { mode: 'LOW_POWER', generatorWatts: 110, position: 98382 }
-      }
-   ]
-}
 
 
 
 
 
-*/
