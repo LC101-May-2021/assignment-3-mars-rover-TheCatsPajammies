@@ -34,11 +34,12 @@ describe("Rover class", function() {
   });
   // Test 10
   it("responds correctly to status check command", function() {
-    let rover = new Rover(87382098)
-    let commands = [new Command('MODE_CHANGE', 'LOW_POWER')];
+    let rover = new Rover(87382098);
+    let commands = [new Command('STATUS_CHECK')];
     let message = new Message('Test message!', commands);
     let response = rover.receiveMessage(message);
-    expect(rover.mode).toEqual('LOW_POWER');
+    expect(response.results[0]).toEqual({ completed: true, roverStatus: { mode: 'NORMAL', generatorWatts: 110, position: 87382098 }});
+
   });
 
   //Test 11

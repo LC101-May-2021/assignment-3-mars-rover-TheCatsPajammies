@@ -1,5 +1,5 @@
-//const Command = require('./command.js');
-//const Message = require('./message.js');
+// const Command = require('./command.js');
+// const Message = require('./message.js');
 
 class Rover {
   // Write code here!
@@ -16,10 +16,10 @@ class Rover {
     let failedCommand = { completed: false };
     let roverStatusObj = { 
       completed: true, 
-      roverStatus: {
+      roverStatus: { 
         mode: this.mode, 
-        generatorWatts: this.generatorWatts, 
-        position: this.position
+        generatorWatts: this.generatorWatts,  
+        position: this.position 
       } 
     };
 
@@ -46,7 +46,6 @@ class Rover {
   }
 
 }
-
 
 module.exports = Rover;
 
