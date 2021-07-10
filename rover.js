@@ -26,15 +26,8 @@ class Rover {
       } else if (roverCommand === 'MOVE' && this.mode === 'LOW_POWER') {
         resultsArr.push(commandFailed);
       } else if (roverCommand === 'STATUS_CHECK') {
-        resultsArr.push(
-          { 
-            completed: true, 
-            roverStatus: { 
-              mode: this.mode, 
-              generatorWatts: this.generatorWatts, 
-              position: this.position } 
-          }
-        );
+        commandPassed.roverStatus = { mode: this.mode, generatorWatts: this.generatorWatts, position: this.position };
+        resultsArr.push(commandPassed);
       }
     }
     return data;
