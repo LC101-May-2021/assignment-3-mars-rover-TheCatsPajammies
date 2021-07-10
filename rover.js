@@ -9,31 +9,31 @@ class Rover {
     
     let resultsArr = [];
     let data = { message: message.name, results: resultsArr };
-    let passedCommand = { completed: true };
-    let failedCommand = { completed: false };
+    let commandPassed = { completed: true };
+    let commandFailed = { completed: false };
 
     for (let i = 0; i < message.commands.length; i++) {
       
-      let roverCommands = message.commands[i].commandType;
+      let roverCommand = message.commands[i].commandType;
       let roverCommandValue = message.commands[i].value;
       
-      if (roverCommands === 'MODE_CHANGE') {
+      if (roverCommand === 'MODE_CHANGE') {
         this.mode = roverCommandValue;
-        resultsArr.push(passedCommand);
-      } else if (roverCommands === 'MOVE' && this.mode === 'NORMAL') {
+        resultsArr.push(commandPassed);
+      } else if (roverCommand === 'MOVE' && this.mode === 'NORMAL') {
         this.position = roverCommandValue;
-        resultsArr.push(passedCommand);
-      } else if (roverCommands === 'MOVE' && this.mode === 'LOW_POWER') {
-        resultsArr.push(failedCommand);
-      } else if (roverCommands === 'STATUS_CHECK') {
+        resultsArr.push(commandPassed);
+      } else if (roverCommand === 'MOVE' && this.mode === 'LOW_POWER') {
+        resultsArr.push(commandFailed);
+      } else if (roverCommand === 'STATUS_CHECK') {
         resultsArr.push({ 
           completed: true, 
           roverStatus: { 
           mode: this.mode, 
           generatorWatts: this.generatorWatts,  
           position: this.position 
-        }
-        })
+          }
+        });
       }
     }
     return data;
