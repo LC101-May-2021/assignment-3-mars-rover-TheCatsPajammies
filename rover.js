@@ -11,14 +11,6 @@ class Rover {
     let data = { message: message.name, results: resultsArr };
     let passedCommand = { completed: true };
     let failedCommand = { completed: false };
-    // let roverStatusObj = { 
-    //   completed: true, 
-    //   roverStatus: { 
-    //     mode: this.mode, 
-    //     generatorWatts: this.generatorWatts,  
-    //     position: this.position 
-    //   } 
-    // };
 
     for (let i = 0; i < message.commands.length; i++) {
       
@@ -26,19 +18,14 @@ class Rover {
       let roverCommandValue = message.commands[i].value;
       
       if (roverCommands === 'MODE_CHANGE') {
-        //roverStatusObj.roverStatus.mode = roverCommandValue;
-        //this.mode = roverStatusObj.roverStatus.mode;
         this.mode = roverCommandValue;
         resultsArr.push(passedCommand);
       } else if (roverCommands === 'MOVE' && this.mode === 'NORMAL') {
-        //roverStatusObj.roverStatus.position = roverCommandValue;
-        //this.position = roverStatusObj.roverStatus.position;
         this.position = roverCommandValue;
         resultsArr.push(passedCommand);
       } else if (roverCommands === 'MOVE' && this.mode === 'LOW_POWER') {
         resultsArr.push(failedCommand);
       } else if (roverCommands === 'STATUS_CHECK') {
-        //resultsArr.push(roverStatusObj);
         resultsArr.push({ 
           completed: true, 
           roverStatus: { 
