@@ -26,22 +26,23 @@ class Rover {
       } else if (roverCommand === 'MOVE' && this.mode === 'LOW_POWER') {
         resultsArr.push(commandFailed);
       } else if (roverCommand === 'STATUS_CHECK') {
-        resultsArr.push({ 
-          completed: true, 
-          roverStatus: { 
-          mode: this.mode, 
-          generatorWatts: this.generatorWatts,  
-          position: this.position 
+        resultsArr.push(
+          { 
+            completed: true, 
+            roverStatus: { 
+              mode: this.mode, 
+              generatorWatts: this.generatorWatts, 
+              position: this.position } 
           }
-        });
+        );
       }
     }
     return data;
   }
-
 }
 
 module.exports = Rover;
+
 // !!!! Use for debugging !!!!
 // const Command = require('./command.js');
 // const Message = require('./message.js');
